@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="anchorPaneVendas" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mz.co.mahs.controller.FXMLVendasController">
+   <children>
+      <Pane fx:id="paneProducto" layoutX="649.0" layoutY="79.0" prefHeight="530.0" prefWidth="473.0" style="-fx-background-color: white;">
+         <children>
+            <Text layoutX="13.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="producto" />
+            <TextField fx:id="txtProcurar" alignment="CENTER" layoutX="14.0" layoutY="23.0" prefHeight="25.0" prefWidth="455.0" promptText="PROCURAR PRODUCTO" />
+            <TableView fx:id="tblProducto" layoutX="13.0" layoutY="65.0" onMouseClicked="#handleMouseClickAction" prefHeight="404.0" prefWidth="455.0">
+              <columns>
+                <TableColumn fx:id="colId" prefWidth="75.0" text="ID" />
+                <TableColumn fx:id="colNome" prefWidth="75.0" text="Nome" />
+                  <TableColumn fx:id="colCategoria" prefWidth="75.0" text="Categoria" />
+                  <TableColumn fx:id="colQty" prefWidth="75.0" text="Qty" />
+                  <TableColumn fx:id="colPreco" prefWidth="75.0" text="Preco" />
+                  <TableColumn fx:id="colValidade" prefWidth="79.0" text="Validade" />
+              </columns>
+            </TableView>
+         </children>
+      </Pane>
+      <Pane fx:id="paneCarrinha" layoutY="79.0" prefHeight="530.0" prefWidth="633.0" style="-fx-background-color: white;">
+         <children>
+            <Text layoutX="13.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CARRINHA" />
+            <HBox layoutX="14.0" layoutY="23.0" prefHeight="17.0" prefWidth="628.0">
+               <children>
+                  <TextField fx:id="txtPorductoNome" alignment="CENTER" promptText="NOME" />
+                  <TextField fx:id="txtPreco" alignment="CENTER" promptText="PRECO" />
+                  <TextField fx:id="txtQty" alignment="CENTER" promptText="QTY" />
+                  <TextField fx:id="txtSutotal" alignment="CENTER" promptText="SUB-TOTAL" />
+               </children>
+            </HBox>
+            <TableView fx:id="tblItems" layoutX="14.0" layoutY="100.0" prefHeight="237.0" prefWidth="619.0">
+              <columns>
+                <TableColumn fx:id="colId" prefWidth="125.0" text="ID" />
+                <TableColumn fx:id="colNome" prefWidth="125.0" text="NOME" />
+                  <TableColumn fx:id="colPreco" prefWidth="125.0" text="PRECO" />
+                  <TableColumn fx:id="colQty" prefWidth="125.0" text="QTY" />
+                  <TableColumn fx:id="calSubTotal" maxWidth="125.0" prefWidth="125.0" text="SUBTOTAL" />
+              </columns>
+            </TableView>
+            <HBox layoutX="10.0" layoutY="66.0" prefHeight="25.0" prefWidth="285.0">
+               <children>
+                  <Button fx:id="btnAdicionar" mnemonicParsing="false" prefHeight="20.0" prefWidth="125.0" text="adicionar" />
+                  <Button fx:id="btnRemover" mnemonicParsing="false" prefHeight="20.0" prefWidth="125.0" text="remover" />
+               </children>
+            </HBox>
+            <Label fx:id="lbValorComlIVA" layoutX="498.0" layoutY="347.0" prefHeight="25.0" prefWidth="125.0" text=".00MT" />
+            <Label fx:id="lblValorSemIVA" layoutX="498.0" layoutY="399.0" prefHeight="25.0" prefWidth="125.0" text=".00MT" />
+            <Label layoutX="357.0" layoutY="347.0" prefHeight="25.0" prefWidth="125.0" text="Total com IVA" />
+            <Label layoutX="357.0" layoutY="399.0" prefHeight="25.0" prefWidth="125.0" text="Total Sem IVA" />
+            <Label layoutX="357.0" layoutY="367.0" prefHeight="25.0" prefWidth="125.0" text="IVA (17%)" />
+            <Label fx:id="lblIVA" layoutX="498.0" layoutY="367.0" prefHeight="25.0" prefWidth="125.0" text=".00MT" />
+            <Button fx:id="btnFinalizar" layoutX="346.0" layoutY="442.0" mnemonicParsing="false" onAction="#finalizar" prefHeight="40.0" prefWidth="192.0" text="Finalizar a  Venda" />
+         </children>
+      </Pane>
+      <Pane fx:id="topVendasPane" layoutX="14.0" prefHeight="78.0" prefWidth="1112.0">
+         <children>
+            <Label layoutX="566.0" layoutY="14.0" text="VENDAS">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font></Label>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

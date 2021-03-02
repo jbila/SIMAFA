@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="814.0" prefWidth="1281.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mz.co.mahs.controller.FXMLAllClientsController">
+   <children>
+      <Pane onMouseClicked="#handleMouseClickAction" prefHeight="104.0" prefWidth="1280.0" style="-fx-background-color: #263238;">
+         <children>
+            <Text fill="WHITE" layoutX="14.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Todos osClientes" textAlignment="JUSTIFY">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Text>
+         </children></Pane>
+      <TextField fx:id="txtProcurar" alignment="CENTER" layoutX="-8.0" layoutY="104.0" prefHeight="25.0" prefWidth="1281.0" promptText="Procurar  Cliente" />
+      <TableView fx:id="tblCliente" layoutX="-6.0" layoutY="129.0" onMouseClicked="#handleMouseClickAction" prefHeight="673.0" prefWidth="1280.0">
+        <columns>
+          <TableColumn fx:id="colId" maxWidth="142.0" prefWidth="142.0" text="ID" />
+          <TableColumn fx:id="colNome" maxWidth="142.0" prefWidth="142.0" text="Nome" />
+            <TableColumn fx:id="colApelido" maxWidth="142.0" prefWidth="142.0" text="Apelido" />
+            <TableColumn fx:id="colGenero" maxWidth="142.0" prefWidth="142.0" text="Genero" />
+            <TableColumn fx:id="colEmail" maxWidth="142.0" prefWidth="142.0" text="Email" />
+            <TableColumn fx:id="colTelefone" maxWidth="142.0" prefWidth="142.0" text="Telefone" />
+            <TableColumn fx:id="colEndereco" maxWidth="142.0" prefWidth="142.0" text="Endereço" />
+            <TableColumn fx:id="colDataRegisto" maxWidth="142.0" prefWidth="142.0" text="Cliente Desde " />
+            <TableColumn fx:id="colUtilizador" prefWidth="143.0" text="Utilizador" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>
