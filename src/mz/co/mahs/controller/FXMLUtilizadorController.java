@@ -86,7 +86,7 @@ public class FXMLUtilizadorController implements Initializable, Crud {
 
 	@FXML
 	private ComboBox<String> cboPerfil;
-	ObservableList<String> perfil = FXCollections.observableArrayList("STANDARD", "ADMINISTRADOR", "GUEST");
+	ObservableList<String> perfil = FXCollections.observableArrayList("STANDARD","ADMINISTRADOR", "GUEST");
 
 	@FXML
 	private ComboBox<String> cboEstado;
@@ -120,6 +120,7 @@ public class FXMLUtilizadorController implements Initializable, Crud {
 		btnAdd.setVisible(true);
 		btnUpdate.setVisible(false);
 		btnDelete.setVisible(false);
+		
 	}
 
 	@FXML
@@ -139,8 +140,8 @@ public class FXMLUtilizadorController implements Initializable, Crud {
 			if (result.get() == ButtonType.OK) {
 				// ... user chose OK
 				acessoDelete();
-				limpar();
 				showInfo();
+				limpar();
 				btnAdd.setVisible(true);
 				btnUpdate.setVisible(false);
 				btnDelete.setVisible(false);
@@ -196,7 +197,6 @@ public class FXMLUtilizadorController implements Initializable, Crud {
 			alert.showAndWait();
 		} else {
 			acessoUpdate();
-			limpar();
 			showInfo();
 		}
 
@@ -210,14 +210,12 @@ public class FXMLUtilizadorController implements Initializable, Crud {
 		cboEstado.setItems(estado);
 		btnUpdate.setVisible(false);
 		btnDelete.setVisible(false);
+		txtID.setVisible(false);
 		showInfo();
 
 	}
 
 //--------------------------------------------------------------
-
-	
-
 	@Override
 	public void acessoAdd() {
 		Utilizador utilizador = new Utilizador();
@@ -226,7 +224,7 @@ public class FXMLUtilizadorController implements Initializable, Crud {
 		utilizador.setEmail(txtEmail.getText().toLowerCase());
 		utilizador.setTelefone(txtTelefone.getText().toUpperCase());
 		utilizador.setEndereco(txtEndereco.getText().toUpperCase());
-		utilizador.setStatus(cboPerfil.getValue().toUpperCase());
+		utilizador.setPerfil(cboPerfil.getValue().toUpperCase());
 		utilizador.setUsername(txtuserName.getText().toLowerCase());
 		utilizador.setPassword(txtPassword.getText());
 		utilizador.setStatus(cboEstado.getValue().toUpperCase());
@@ -249,27 +247,29 @@ public class FXMLUtilizadorController implements Initializable, Crud {
 		utilizador.setEmail(txtEmail.getText().toUpperCase());
 		utilizador.setTelefone(txtTelefone.getText().toUpperCase());
 		utilizador.setEndereco(txtEndereco.getText().toUpperCase());
-		utilizador.setStatus(cboPerfil.getValue().toUpperCase());
+		utilizador.setPerfil(cboPerfil.getValue());
 		utilizador.setUsername(txtuserName.getText().toLowerCase());
 		utilizador.setPassword(txtPassword.getText());
+		utilizador.setGenero(cboSexo.getValue());
 		utilizador.setStatus(cboEstado.getValue().toUpperCase());
+		
 		utilizador.setIdUtilizador(Integer.parseInt(txtID.getText()));
 		DaoUtilizador.updateUtilizador(utilizador);
 		limpar();
 		btnUpdate.setVisible(false);
 		btnDelete.setVisible(false);
 		btnAdd.setVisible(true);
-
 	}
 
 	@Override
 	public void limpar() {
+		txtNome.setText("");
 		txtID.setText("");
 		txtEmail.setText("");
 		txtTelefone.setText("");
 		txtPassword.setText("");
 		txtuserName.setText("");
-
+		txtApelido.setText("");
 	}
 
 	@Override
@@ -299,5 +299,6 @@ public class FXMLUtilizadorController implements Initializable, Crud {
 		ColEstado.setCellValueFactory(new PropertyValueFactory<>("status"));
 		colPerfil.setCellValueFactory(new PropertyValueFactory<>("perfil"));
 		tblUtilizador.setItems(obserList);
+		
 	}
 }

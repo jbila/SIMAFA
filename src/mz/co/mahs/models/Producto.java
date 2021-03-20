@@ -1,18 +1,9 @@
 
 package mz.co.mahs.models;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-@Entity
-@Table(name="tbl_producto")
 public class Producto {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="idProducto")
+	
 	private int idProducto;
+	private String codigo;
 	private String nome;//nome,descricao,qty,precofinal,precoFornecedor,validade,categoria,fornecedor,utilizador,dataRegisto
     private String descricao;
 	private int quantidade;
@@ -21,11 +12,8 @@ public class Producto {
 	private String validade;
 	private String dataRegisto;
 	/*==========================*/
-	@Column(name="idCategoria")
 	private Categoria categoria;
-	@Column(name="idUtilizador")
     private Utilizador utilizador;
-	@Column(name="idFornecedor")
     private Fornecedor fornecedor;
     
     public  Producto() {}
@@ -116,6 +104,20 @@ public class Producto {
 
 	public void setIdProducto(int idProducto) {
 		this.idProducto = idProducto;
+	}
+	
+
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
+
+	@Override
+	public String toString() {
+		return getNome();
 	}
     
     

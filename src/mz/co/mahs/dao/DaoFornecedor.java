@@ -18,7 +18,7 @@ public class DaoFornecedor {
 	static Alert alertErro = new Alert(AlertType.ERROR);
 	static Alert alertInfo = new Alert(AlertType.INFORMATION);
 	private static final String INSERT = "INSERT INTO tbl_fornecedor(nome,apelido,genero,email,telefone,endereco,idUtilizador,dataRegisto) VALUES(?,?,?,?,?,?,?,?)";
-	private static final String LIST = "SELECT * FROM tbl_fornecedor";
+	private static final String LIST = "select * from vw_listFornecedor";
 	private static final String DELETE = "DELETE FROM tbl_fornecedor WHERE idFornecedor=?";
 	private static final String UPDATE = "UPDATE tbl_fornecedor SET nome=?,apelido=?,genero=?,email=?,telefone=?,endereco=?,idUtilizador=? WHERE idFornecedor=?";
 
@@ -171,7 +171,7 @@ public class DaoFornecedor {
 				Fornecedor fornecedor = new Fornecedor();
 				
 				Utilizador utilizador = new Utilizador();
-				utilizador.setUsername(rs.getString(6));
+				utilizador.setUsername(rs.getString("utilizador"));
 				
 				fornecedor.setIdFornecedor(rs.getInt("idFornecedor"));
 				fornecedor.setNome(rs.getString("nome"));
@@ -212,12 +212,12 @@ public class DaoFornecedor {
 				while (rs.next()) {
 					Fornecedor fornecedor = new Fornecedor();
 					Utilizador utilizador = new Utilizador();
-					utilizador.setUsername(rs.getString(6));
-					fornecedor.setIdFornecedor(rs.getInt(1));
-					fornecedor.setNome(rs.getString(2));
-					fornecedor.setEmail(rs.getString(3));
-					fornecedor.setTelefone(rs.getString(4));
-					fornecedor.setEndereco(rs.getString(5));
+					utilizador.setUsername(rs.getString("username"));
+					fornecedor.setIdFornecedor(rs.getInt("idFornecedor"));
+					fornecedor.setNome(rs.getString("nome"));
+					fornecedor.setEmail(rs.getString("email"));
+					fornecedor.setTelefone(rs.getString("telefone"));
+					fornecedor.setEndereco(rs.getString("endereco"));
 					fornecedor.setUtilizador(utilizador);
 				
 					fornecedores.add(fornecedor);

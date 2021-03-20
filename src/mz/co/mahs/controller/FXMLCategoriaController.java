@@ -10,13 +10,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import mz.co.mahs.dao.DaoCategoria;
@@ -77,17 +76,26 @@ public class FXMLCategoriaController implements Initializable,Crud {
 		txtId.setText("" + categoria.getIdCategoria());
 		txtNome.setText("" + categoria.getNome());
 		txtDescricao.setText("" + categoria.getDescricao());
+		btnAdd.setVisible(false);
+		btnUpdate.setVisible(true);
+		btnDelete.setVisible(true);
 	}
     @FXML
     private void add(ActionEvent event) {
     	acessoAdd();
     	showInfo();
+    	btnAdd.setVisible(true);
+		btnUpdate.setVisible(false);
+		btnDelete.setVisible(false);
     }
 
     @FXML
     private void delete(ActionEvent event) {
     	acessoDelete();
     	showInfo();
+    	btnUpdate.setVisible(false);
+		btnDelete.setVisible(false);
+		btnAdd.setVisible(true);
     }
 
    
@@ -101,11 +109,16 @@ public class FXMLCategoriaController implements Initializable,Crud {
     private void update(ActionEvent event) {
     	acessoUpdate();
     	showInfo();
+    	btnAdd.setVisible(true);
+		btnUpdate.setVisible(false);
+		btnDelete.setVisible(false);
     }
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 	showInfo();
+	btnUpdate.setVisible(false);
+	btnDelete.setVisible(false);
 		
 	}
 

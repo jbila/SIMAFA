@@ -22,7 +22,7 @@ public class DaoCategoria {
 	private static final String INSERT = "INSERT INTO tbl_categoria(nome,descricao,idUtilizador,dataRegisto) values(?,?,?,?)";
 	private static final String DELETE = "DELETE FROM tbl_categoria WHERE idCategoria=?";
 	private static final String UPDATE = "UPDATE tbl_categoria SET nome=?,descricao=?,idUtilizador=? WHERE idCategoria=?";
-	private static final String LIST = "SELECT  * FROM tbl_categoria";
+	private static final String LIST = "select * from vw_listcategoria";
 
 	private static Connection conn = null;
 	private static ResultSet rs = null;
@@ -137,10 +137,10 @@ public class DaoCategoria {
 			while (rs.next()) {
 				Categoria categoria = new Categoria();
 				Utilizador utilizador = new Utilizador();
-				utilizador.setNome(rs.getString(4));
-				categoria.setIdCategoria(rs.getInt(1));
-				categoria.setNome(rs.getString(2));
-				categoria.setDescricao(rs.getString(3));
+				utilizador.setUsername(rs.getString("utilizador"));
+				categoria.setIdCategoria(rs.getInt("idCategoria"));
+				categoria.setNome(rs.getString("nome"));
+				categoria.setDescricao(rs.getString("descricao"));
 				categoria.setUtilizador(utilizador);
 				categorias.add(categoria);
 

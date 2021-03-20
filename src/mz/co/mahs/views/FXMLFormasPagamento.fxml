@@ -26,7 +26,7 @@
       <Label layoutY="74.0" text="FORMAS DE PAGAMENTO" />
       <Label layoutY="95.0" text="VALOR" />
       <Label layoutY="127.0" text="TROCOS" />
-      <ComboBox fx:id="cboFormasPagaemto" layoutX="166.0" layoutY="70.0" prefWidth="150.0" promptText="cash-mpesa-bim-bci" />
+      <ComboBox fx:id="cboFormasPagaemto" layoutX="166.0" layoutY="70.0" prefWidth="150.0" />
       <Label fx:id="lblTrocos" alignment="CENTER" layoutX="167.0" layoutY="135.0" prefHeight="17.0" prefWidth="150.0" text="0.00 MT" />
       <Label fx:id="lblToalApagar" alignment="CENTER" layoutX="167.0" layoutY="185.0" prefHeight="25.0" prefWidth="125.0" text="TOTAL A PAGAR" />
       <Pane layoutX="403.0" layoutY="70.0" prefHeight="121.0" prefWidth="290.0" style="-fx-background-color: WHITE;">
@@ -43,7 +43,6 @@
                   <Font size="18.0" />
                </font>
             </Text>
-            <Button fx:id="btnCllient" layoutX="199.0" layoutY="10.0" mnemonicParsing="false" onAction="#clientes" prefHeight="25.0" prefWidth="69.0" style="-fx-background-color: #00bfff;" text="ver.." textFill="WHITE" />
          </children>
       </Pane>
       <Separator layoutX="7.0" layoutY="239.0" prefHeight="17.0" prefWidth="693.0" />

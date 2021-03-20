@@ -1,8 +1,5 @@
 
 package mz.co.mahs.models;
-
-import java.time.LocalDate;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,7 +12,7 @@ public class Cliente extends Pessoa{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idCliente;
     private Utilizador utilizador;
-    private LocalDate dataRegisto;
+    private String dataRegisto;
   //nome,genero,email,telefone,endereco
     
   public Cliente(){}
@@ -36,18 +33,18 @@ public void setUtilizador(Utilizador utilizador) {
 	this.utilizador = utilizador;
 }
 
-public LocalDate getDataRegisto() {
+public String getDataRegisto() {
 	return dataRegisto;
 }
 
-public void setDataRegisto(LocalDate dataRegisto) {
+public void setDataRegisto(String dataRegisto) {
 	this.dataRegisto = dataRegisto;
 }
 
 @Override
 public String toString() {
-	return "Cliente [idCliente=" + idCliente + ", utilizador=" + utilizador + ", dataRegisto=" + dataRegisto + "]";
-}
+	return getNome();
+			}
   
 
 }

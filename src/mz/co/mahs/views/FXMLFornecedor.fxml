@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mz.co.mahs.controller.FXMLFornecedorController">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="648.0" prefWidth="1927.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mz.co.mahs.controller.FXMLFornecedorController">
 	<children>
 		<VBox layoutX="8.0">
 			<children>
@@ -28,7 +28,7 @@
                         <Insets top="1.0" />
                      </padding>
             						</VBox>
-						<VBox layoutX="85.0" layoutY="48.0" prefHeight="123.0" prefWidth="287.0" spacing="5.0">
+						<VBox layoutX="85.0" layoutY="48.0" prefHeight="123.0" prefWidth="300.0" spacing="5.0">
 							<children>
 								<TextField fx:id="txtNome" alignment="CENTER" prefHeight="25.0" prefWidth="324.0" promptText="Introduza  o nome" />
 								<TextField fx:id="txtEmail" alignment="CENTER" layoutX="10.0" layoutY="72.0" prefHeight="25.0" prefWidth="324.0" promptText="Introduza o Email" />
@@ -40,7 +40,7 @@
 				</Pane>
 			</children>
 		</VBox>
-		<Pane layoutX="4.0" layoutY="358.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="1134.0" style="-fx-background-color: #ffffff;">
+		<Pane layoutX="4.0" layoutY="359.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="288.0" prefWidth="1134.0" style="-fx-background-color: #ffffff;">
 			<children>
 				<TextField alignment="CENTER" layoutX="171.0" layoutY="2.0" prefHeight="25.0" prefWidth="444.0" promptText="Procurar Utilizador" />
       				<TableView fx:id="tblFornecedor" layoutX="-4.0" layoutY="-105.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#handleMouseClickAction" prefHeight="392.0" prefWidth="1134.0">
@@ -57,12 +57,12 @@
 			</children>
 		</Pane>
       <TextField alignment="CENTER" layoutX="1.0" layoutY="227.0" prefHeight="25.0" prefWidth="1134.0" promptText="PROCURAR FORNECEDOR ..." />
-      <TextField fx:id="txtId" alignment="CENTER" editable="false" layoutX="383.0" layoutY="47.0" prefHeight="25.0" prefWidth="71.0" promptText="ID" />
-      <HBox fx:id="hBoxButton" layoutX="171.0" layoutY="185.0" prefHeight="25.0" prefWidth="148.0">
+      <TextField fx:id="txtId" alignment="CENTER" editable="false" layoutX="393.0" layoutY="47.0" prefHeight="25.0" prefWidth="46.0" promptText="ID" />
+      <HBox fx:id="hBoxButton" layoutX="93.0" layoutY="187.0" prefHeight="25.0" prefWidth="300.0">
          <children>
-            <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#add" text="Add" />
-            <Button fx:id="btnUpdate" mnemonicParsing="false" onAction="#update" text="update" />
-            <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#delete" text="delete" />
+            <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#add" prefWidth="100.0" text="Add" />
+            <Button fx:id="btnUpdate" mnemonicParsing="false" onAction="#update" prefWidth="100.0" text="update" />
+            <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#delete" prefWidth="100.0" text="delete" />
          </children>
       </HBox>
 	</children>

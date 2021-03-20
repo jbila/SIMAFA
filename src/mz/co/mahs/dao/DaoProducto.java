@@ -1,10 +1,11 @@
 package mz.co.mahs.dao;
 
-
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -20,158 +21,145 @@ import mz.co.mahs.models.Utilizador;
 
 public class DaoProducto {
 
-
 	static Alert alertErro = new Alert(AlertType.ERROR);
 	static Alert alertInfo = new Alert(AlertType.INFORMATION);
-	private static final String INSERT = "INSERT INTO tbl_producto(nome,descricao,quantidade,precofinal,precoFornecedor,validade,idCategoria,idFornecedor,idUtilizador,dataRegisto) VALUES(?,?,?,?,?,?,?,?,?,?)";
-	private static final String LIST = "SELECT p.idProducto,p.nome,p.descricao,p.quantidade,p.precoFinal,p.precoFornecedor,p.validade,p.dataRegisto FROM tbl_producto AS p";
-	private static final String DELETE = "DELETE FROM tbl_producto WHERE idProducto=?";
-	private static final String UPDATE = "UPDATE tbl_producto SET nome=? WHERE idProducto=?";
+	private static final String INSERT = "INSERT INTO tbl_producto(nome,codigo,descricao,quantidade,precofinal,precoFornecedor,validade,idCategoria,idUtilizador,dataRegisto) VALUES(?,?,?,?,?,?,?,?,?,?)";
+	private static final String LIST = "SELECT * FROM vw_listProducto";
+	private static final String DELETE = "{CALL sp_Delete_Producto(?)}";
+	private static final String UPDATE = "UPDATE tbl_producto SET nome=?,codigo=?,descricao=?,quantidade=?,precoFinal,precoFornecedor=?,validade=? WHERE idProducto=?";
 
 	private static Connection conn = null;
-	// private static CallableStatement cs = null;
+	private static CallableStatement cs = null;
 	private static ResultSet rs = null;
 	private static PreparedStatement stmt;
 
-  
-  
-  public  static boolean isRecorded(String nome,String data ) {
-  	 boolean retorno = false;
-		     final  String sql = "SELECT nome FROM tbl_producto WHERE nome ='"+nome+"'OR nome='"+data+"' ";
-   
-    
-      try {
-      	conn=Conexao.connect();
-      	stmt=conn.prepareStatement(sql);
-              rs = stmt.executeQuery();
-              retorno = rs.next(); 
-          
-          	
-         
-         
-      } catch (SQLException e) {
-   
-          alertErro.setHeaderText("Erro");
-          alertErro.setContentText("Erro ao vertificar "+e);
-          alertErro.showAndWait();
-          
-      }
-     
+	public static boolean isRecorded(String codigo) {
+		boolean retorno = false;
+		final String sql = "SELECT codigo FROM tbl_producto WHERE nome ='" + codigo + "'";
 
-      return retorno;
-  }
-  //--------------------------------------------------------------------------
-  
-  public static void add(Producto producto) {
-   
-          try {
-        	  LocalDate localDate = LocalDate.now();
-              String dataRegisto = DateTimeFormatter.ofPattern("yyy-MM-dd").format(localDate);
+		try {
+			conn = Conexao.connect();
+			stmt = conn.prepareStatement(sql);
+			rs = stmt.executeQuery();
+			retorno = rs.next();
 
-             
-              conn = Conexao.connect();
-              stmt = conn.prepareStatement(INSERT);
-              //nome,descricao,qty,precofinal,precoFornecedor,validade,categoria,fornecedor,utilizador,dataRegisto
-              stmt.setString(1, producto.getNome());
-              stmt.setString(2, producto.getDescricao());
-              stmt.setInt(3, producto.getQuantidade());
-              stmt.setDouble(4, producto.getPrecoFinal());
-              stmt.setDouble(5, producto.getPrecoFornecedor());
-              stmt.setString(6, ""+producto.getValidade());
-              stmt.setInt(7, producto.getCategoria().getIdCategoria());
-              stmt.setInt(8, producto.getFornecedor().getIdFornecedor());
-              stmt.setInt(9, producto.getUtilizador().getIdUtilizador());
-              stmt.setString(10,dataRegisto);
-              stmt.executeUpdate();
-             
-              alertInfo.setHeaderText("Information");
-              alertInfo.setContentText("producto adicionado ");
-              alertInfo.showAndWait();
-             // 
-          } catch (SQLException ex) {
-          	alertInfo.setHeaderText("Informationo");
-              alertInfo.setContentText(" "+ex);
-              alertInfo.showAndWait();
-          }
-          finally {
-        	  try {
+		} catch (SQLException e) {
+
+			alertErro.setHeaderText("Erro");
+			alertErro.setContentText("Este Producto ja existe" + e);
+			alertErro.showAndWait();
+
+		}
+
+		return retorno;
+	}
+	// --------------------------------------------------------------------------
+
+	public static int add(Producto producto) {
+		int lastId=0;
+		try {
+			LocalDate localDate = LocalDate.now();
+			String dataRegisto = DateTimeFormatter.ofPattern("yyy-MM-dd").format(localDate);
+			conn = Conexao.connect();
+			//stmt = conn.prepareStatement(INSERT);
+			final PreparedStatement stmt = conn.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
+			stmt.setString(1, producto.getNome());
+			stmt.setString(2, producto.getCodigo());
+			stmt.setString(3, producto.getDescricao());
+			stmt.setInt(4, producto.getQuantidade());
+			stmt.setDouble(5, producto.getPrecoFinal());
+			stmt.setDouble(6, producto.getPrecoFornecedor());
+			stmt.setString(7, producto.getValidade());
+			stmt.setInt(8, producto.getCategoria().getIdCategoria());
+			stmt.setInt(9, producto.getUtilizador().getIdUtilizador());
+			stmt.setString(10, dataRegisto);
+			stmt.executeUpdate();
+			final ResultSet rs = stmt.getGeneratedKeys();
+			if (rs.next()) {
+			   lastId = rs.getInt(1);   
+			}
+		} catch (SQLException ex) {
+			alertInfo.setHeaderText("Informação");
+			alertInfo.setContentText(" " + ex);
+			alertInfo.showAndWait();
+			ex.printStackTrace();
+		}
+		finally {
+			try {
 				stmt.close();
 			} catch (SQLException e) {
-			
+
 				e.printStackTrace();
 			}
-          }
-     
-  }
-  //--------------------------------------------------------------------------
-  public static void delete(Producto  producto) {
-	
-     try {
-         conn = Conexao.connect();
-         stmt = conn.prepareStatement(DELETE);
-         stmt.setInt(1,producto.getIdProducto());
-         stmt.execute();
-         alertInfo.setHeaderText("Information");
-         alertInfo.setContentText("producto Removida");
-         alertInfo.showAndWait();
-        
-
-     } 
-     catch (SQLException e) {
-         
-         alertErro.setHeaderText("Erro");
-         alertErro.setContentText("Erro ao eliminar o  producto: "+e.getMessage());
-         alertErro.showAndWait();
-     }
-     finally {
-    	 try {
-			stmt.close();
-		} catch (SQLException e) {
-			
-			e.printStackTrace();
 		}
-     }
- }
-//------------------------------------------------------------------------------
-		public static  void update(Producto  producto) {
+return lastId;
+	}
+
+	// --------------------------------------------------------------------------
+	public static void delete(Producto producto) {
+
+		try {
+			conn = Conexao.connect();
+			cs = conn.prepareCall(DELETE);
+			cs.setInt(1, producto.getIdProducto());
+			cs.execute();
+			alertInfo.setHeaderText("Information");
+			alertInfo.setContentText("producto Removida");
+			alertInfo.showAndWait();
+		} catch (SQLException e) {
+
+			alertErro.setHeaderText("Erro");
+			alertErro.setContentText("Erro ao eliminar o  producto: " + e.getMessage());
+			alertErro.showAndWait();
+		} finally {
 			try {
+				stmt.close();
+			} catch (SQLException e) {
 
-				conn = Conexao.connect();
-				stmt = conn.prepareStatement(UPDATE);
-
-				stmt.setString(1, producto.getNome());
-				stmt.setString(2, producto.getDescricao());
-				stmt.setInt(3, producto.getQuantidade());
-				stmt.setDouble(4, producto.getPrecoFinal());
-				stmt.setDouble(5, producto.getPrecoFornecedor());
-				stmt.setString(6,producto.getValidade());
-				stmt.setInt(7, producto.getCategoria().getIdCategoria());
-				stmt.setInt(8, producto.getFornecedor().getIdFornecedor());
-				stmt.setInt(9, producto.getUtilizador().getIdUtilizador());
-				stmt.setInt(10,producto.getIdProducto());
-				stmt.executeUpdate();
-
-				alertInfo.setHeaderText("Information");
-				alertInfo.setContentText("Updated ");
-				alertInfo.showAndWait();
+				e.printStackTrace();
 			}
+		}
+	}
 
-			catch (SQLException ex) {
-					alertErro.setHeaderText("Error");
-		           alertErro.setContentText("Error Updating the the item "+ex.getMessage());
-		           alertErro.showAndWait();
+//------------------------------------------------------------------------------
+	public static void update(Producto producto) {
+		try {
+
+			conn = Conexao.connect();
+			stmt = conn.prepareStatement(UPDATE);
+
+			stmt.setString(1, producto.getNome());
+			stmt.setString(2, producto.getCodigo());
+			stmt.setString(3, producto.getDescricao());
+			stmt.setInt(4, producto.getQuantidade());
+			stmt.setDouble(5, producto.getPrecoFinal());
+			stmt.setDouble(6, producto.getPrecoFornecedor());
+			stmt.setString(7, producto.getValidade());
+			stmt.setInt(8, producto.getCategoria().getIdCategoria());
+			stmt.setInt(9, producto.getUtilizador().getIdUtilizador());
+			stmt.setInt(10, producto.getIdProducto());
+			stmt.executeUpdate();
+
+			alertInfo.setHeaderText("Information");
+			alertInfo.setContentText("Updated ");
+			alertInfo.showAndWait();
+		}
+
+		catch (SQLException ex) {
+			alertErro.setHeaderText("Error");
+			alertErro.setContentText("Error Updating the the Product " + ex.getMessage());
+			alertErro.showAndWait();
+		} finally {
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+
+				e.printStackTrace();
 			}
-			finally {
-				try {
-					stmt.close();
-				} catch (SQLException e) {
-					
-					e.printStackTrace();
-				}
-			}
+		}
 	}
 //------------------------------------------------------------------------------
-	
+
 	public static List<Producto> getAll() {
 		List<Producto> productos = new ArrayList<>();
 		try {
@@ -179,99 +167,151 @@ public class DaoProducto {
 			stmt = conn.prepareCall(LIST);
 			rs = stmt.executeQuery();
 			while (rs.next()) {
-				Producto producto = new Producto();//objecto principal
-							producto.setIdProducto(rs.getInt("idProducto"));
-							producto.setNome(rs.getString("nome"));
-							producto.setQuantidade(rs.getInt("quantidade"));
-							producto.setPrecoFinal(Double.parseDouble(rs.getString("precoFinal")));
-							producto.setPrecoFornecedor(Double.parseDouble(rs.getString("precoFornecedor")));
-							producto.setValidade(rs.getString("validade"));
-							producto.setDescricao(rs.getString("descricao"));
-							producto.setDataRegisto(rs.getString("dataRegisto"));
-							
-							
-				Fornecedor fornecedor=new Fornecedor();//OBJECTO SECUNDARIO
-				//fornecedor.setNome(rs.getString(6));
-				
-				Categoria categoria=new Categoria();//OBJECTO SECUNDARIO
-				//categoria.setNome(rs.getString(7));
-				
-				Utilizador utilizador=new Utilizador(); //OBJECTO SECUNDARIO
-				//utilizador.setUsername(rs.getString(8));
-				
-				
-				
-				producto.setUtilizador(utilizador);
+
+				Producto producto = new Producto();// objecto principal
+
+				Categoria categoria = new Categoria();
+				categoria.setNome(rs.getString("categoria"));
+
+				Fornecedor fornecedor = new Fornecedor();
+				fornecedor.setNome(rs.getString("fornecedor"));
+				Utilizador utilizador = new Utilizador(); // OBJECTO SECUNDARIO
+				utilizador.setUsername(rs.getString("utilizador"));
+
+				producto.setIdProducto(rs.getInt("idProducto"));
+				producto.setCodigo(rs.getString("codigo"));
+				producto.setNome(rs.getString("nome"));
+				producto.setQuantidade(rs.getInt("quantidade"));
+				producto.setPrecoFinal(Double.parseDouble(rs.getString("precoFinal")));
+				producto.setPrecoFornecedor(Double.parseDouble(rs.getString("precoFornecedor")));
+				producto.setValidade(rs.getString("validade"));
+				producto.setDescricao(rs.getString("descricao"));
+				producto.setDataRegisto(rs.getString("dataRegisto"));
 				producto.setCategoria(categoria);
 				producto.setFornecedor(fornecedor);
-				
+				producto.setUtilizador(utilizador);
 				productos.add(producto);
-				
+
 			}
 
 		} catch (SQLException ex) {
 			alertErro.setHeaderText("Erro");
 			alertErro.setContentText("Erro ao listar  Producto  " + ex.getMessage());
 			alertErro.showAndWait();
-		}
-		finally
-		{
+		} finally {
 			try {
 				rs.close();
 			} catch (SQLException e) {
-			
+
 				e.printStackTrace();
 			}
 			try {
 				stmt.close();
 			} catch (SQLException e) {
-			
+
 				e.printStackTrace();
 			}
-			
+
 		}
 
 		return productos;
-  }
+	}
+
 //-------------------------------------------------------------------------------------------
-	public static  Integer ultimoIdProducto(){
-      	int id=0;
-   
-     try{
-         
-         conn=Conexao.connect();
-         stmt=conn.prepareStatement("SELECT MAX(idProducto) FROM tbl_producto");
-         rs=stmt.executeQuery();
-			if (rs.next()) {
-				  id=(rs.getInt(1));
+	public static List<Producto> searchAll(String nome) {
+		List<Producto> productos = new ArrayList<>();
+		try {
+			conn = Conexao.connect();
+			stmt = conn.prepareCall("SELECT * FROM vw_listProducto WHERE nome LIKE '"+nome+"%' OR codigo LIKE'"+nome+"%' ");
+			rs = stmt.executeQuery();
+			while (rs.next()) {
+
+				Producto producto = new Producto();// objecto principal
+
+				Categoria categoria = new Categoria();
+				categoria.setNome(rs.getString("categoria"));
+
+				Fornecedor fornecedor = new Fornecedor();
+				fornecedor.setNome(rs.getString("fornecedor"));
+				Utilizador utilizador = new Utilizador(); // OBJECTO SECUNDARIO
+				utilizador.setUsername(rs.getString("utilizador"));
+
+				producto.setIdProducto(rs.getInt("idProducto"));
+				producto.setCodigo(rs.getString("codigo"));
+				producto.setNome(rs.getString("nome"));
+				producto.setQuantidade(rs.getInt("quantidade"));
+				producto.setPrecoFinal(Double.parseDouble(rs.getString("precoFinal")));
+				producto.setPrecoFornecedor(Double.parseDouble(rs.getString("precoFornecedor")));
+				producto.setValidade(rs.getString("validade"));
+				producto.setDescricao(rs.getString("descricao"));
+				producto.setDataRegisto(rs.getString("dataRegisto"));
+				producto.setCategoria(categoria);
+				producto.setFornecedor(fornecedor);
+				producto.setUtilizador(utilizador);
+				productos.add(producto);
+
 			}
-     }
-     catch(SQLException ex)
-     {
-  	   alertErro.setHeaderText("Erro");
-  	   alertErro.setContentText("Erro ao Carregar o Id do tbl_Producto  "+ex.getMessage());
-  	   alertErro.showAndWait();
-     }
-     finally {
-    	 
-    	 try {
+
+		} catch (SQLException ex) {
+			alertErro.setHeaderText("Erro");
+			alertErro.setContentText("Erro ao listar  Producto  " + ex.getMessage());
+			alertErro.showAndWait();
+		} finally {
+			try {
 				rs.close();
 			} catch (SQLException e) {
-			
+
 				e.printStackTrace();
 			}
 			try {
 				stmt.close();
 			} catch (SQLException e) {
-			
+
 				e.printStackTrace();
 			}
-     }
-     
-     
-     
-     return id;
-  }
+
+		}
+
+		return productos;
+	}
+
+//-------------------------------------------------------------------------------------------
+	
+
+	public static Integer ultimoIdProducto() {
+		int id = 0;
+
+		try {
+
+			conn = Conexao.connect();
+			stmt = conn.prepareStatement("SELECT MAX(idProducto) FROM tbl_producto");
+			rs = stmt.executeQuery();
+			if (rs.next()) {
+				id = (rs.getInt(1));
+			}
+		} catch (SQLException ex) {
+			alertErro.setHeaderText("Erro");
+			alertErro.setContentText("Erro ao Carregar o Id do tbl_Producto  " + ex.getMessage());
+			alertErro.showAndWait();
+		} finally {
+
+			try {
+				rs.close();
+			} catch (SQLException e) {
+
+				e.printStackTrace();
+			}
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+
+				e.printStackTrace();
+			}
+		}
+
+		return id;
+	}
+
 //---------------------------------------------------------------------------------------------------
 	public static void addForeignKeys(FornecedorProducto fornecedorProducto) {
 		try {
@@ -289,4 +329,19 @@ public class DaoProducto {
 		}
 	}
 //----------------------------------------------------------------------------------------------------
+	public static void updateForeignKeys(FornecedorProducto fornecedorProducto) {
+		try {
+
+			conn = Conexao.connect();
+			stmt = conn.prepareStatement("UPDATE tbl_fornecedorProducto SET idProduto=?,idFornecedor=?)");
+			stmt.setInt(1, fornecedorProducto.getProducto().getIdProducto());
+			stmt.setInt(2, fornecedorProducto.getFornecedor().getIdFornecedor());
+			stmt.executeUpdate();
+			stmt.close();
+		} catch (SQLException ex) {
+			alertInfo.setHeaderText("Information");
+			alertInfo.setContentText(" " + ex);
+			alertInfo.showAndWait();
+		}
+	}
 }

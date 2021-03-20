@@ -20,8 +20,9 @@ public class DaoUtilizador {
 	static Alert alertInfo = new Alert(AlertType.INFORMATION);
 	
 	private static final String INSERT = "INSERT INTO tbl_utilizador(nome,apelido,genero,email,telefone,endereco,status,perfil,username,password,dataRegisto) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
-	private static final String LIST = "SELECT u.idUtilizador,u.nome,u.genero,u.email,u.endereco,u.telefone,u.username,u.status,u.perfil FROM tbl_Utilizador AS u order by u.idUtilizador desc";
-	private static final String DELETE = "{CALL ps_Delete_User(?)}";
+	//SELECT u.idUtilizador,u.nome,u.genero,u.email,u.endereco,u.telefone,u.username,u.status,u.perfil FROM tbl_Utilizador AS u order by u.idUtilizador desc
+	private static final String LIST = "select * from vw_listutilizador";
+	private static final String DELETE = "{CALL sp_Delete_Utlizador(?)}";
 	private static final String UPDATE = "UPDATE tbl_utilizador SET nome=?, apelido=?,genero=?,email=?,telefone=?,endereco=?,status=?,perfil=?,username=?,password=? WHERE idUtilizador=? ";
 	
 	private static Connection conn = null;
@@ -147,9 +148,10 @@ public class DaoUtilizador {
             stmt.setString(10, u.getPassword());
             stmt.setInt(11, u.getIdUtilizador());
 			stmt.executeUpdate();
+			/*
 			alertInfo.setHeaderText("Informação");
 			alertInfo.setContentText("Utilizador Actualizado com êxito ");
-			alertInfo.showAndWait();
+			alertInfo.showAndWait();*/
 		}
 
 		catch (SQLException ex) {
@@ -180,15 +182,15 @@ public class DaoUtilizador {
 
 				while (rs.next()) {
 					Utilizador utilizador = new Utilizador();
-					utilizador.setIdUtilizador(rs.getInt(1));
-					utilizador.setNome(rs.getString(2));
-					utilizador.setGenero(rs.getString(3));
-					utilizador.setEmail(rs.getString(4));
-					utilizador.setTelefone(rs.getString(5));
-					utilizador.setEndereco(rs.getString(6));
-					utilizador.setUsername(rs.getString(7));
-					utilizador.setStatus(rs.getString(8));
-					utilizador.setPerfil(rs.getString(9));
+					utilizador.setIdUtilizador(rs.getInt("idUtilizador"));
+					utilizador.setNome(rs.getString("nome"));
+					utilizador.setGenero(rs.getString("genero"));
+					utilizador.setEmail(rs.getString("email"));
+					utilizador.setTelefone(rs.getString("telefone"));
+					utilizador.setEndereco(rs.getString("endereco"));
+					utilizador.setUsername(rs.getString("username"));
+					utilizador.setStatus(rs.getString("status"));
+					utilizador.setPerfil(rs.getString("perfil"));
 					utilizadorList.add(utilizador);
 
 				}
@@ -226,16 +228,15 @@ public class DaoUtilizador {
 
 				while (rs.next()) {
 					Utilizador utilizador = new Utilizador();
-					utilizador.setIdUtilizador(rs.getInt(1));
-					utilizador.setNome(rs.getString(2));
-					utilizador.setGenero(rs.getString(3));
-					utilizador.setEmail(rs.getString(4));
-					utilizador.setTelefone(rs.getString(5));
-					utilizador.setEndereco(rs.getString(6));
-					
-					utilizador.setStatus(rs.getString(7));
-					utilizador.setUsername(rs.getString(8));
-					utilizador.setPerfil(rs.getString(9));
+					utilizador.setIdUtilizador(rs.getInt("idUtilizador"));
+					utilizador.setNome(rs.getString("nome"));
+					utilizador.setGenero(rs.getString("genero"));
+					utilizador.setEmail(rs.getString("email"));
+					utilizador.setTelefone(rs.getString("telefone"));
+					utilizador.setEndereco(rs.getString("endereco"));
+					utilizador.setUsername(rs.getString("username"));
+					utilizador.setStatus(rs.getString("status"));
+					utilizador.setPerfil(rs.getString("perfil"));
 					utilizadorList.add(utilizador);
 
 				}

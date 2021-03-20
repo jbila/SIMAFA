@@ -1,5 +1,6 @@
-package mz.co.mahs.models;
 
+package mz.co.mahs.models;
+// nao esta sendo usada no momento
 public class FornecedorProducto {
 	private int idFornecedorProducto;
 	private Producto producto;

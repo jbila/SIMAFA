@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" fx:id="rootCategoria" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mz.co.mahs.controller.FXMLCategoriaController">
+<AnchorPane id="AnchorPane" fx:id="rootCategoria" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="607.0" prefWidth="1894.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mz.co.mahs.controller.FXMLCategoriaController">
 	<children>
 		<VBox layoutX="8.0">
 			<children>
@@ -61,11 +61,11 @@
             <Font size="14.0" />
          </font>
       </Text>
-      <HBox fx:id="hBoxButton" layoutX="464.0" layoutY="184.0" prefHeight="25.0" prefWidth="148.0">
+      <HBox fx:id="hBoxButton" layoutX="427.0" layoutY="186.0" prefHeight="25.0" prefWidth="300.0">
          <children>
-            <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#add" text="Add" />
-            <Button fx:id="btnUpdate" mnemonicParsing="false" onAction="#update" text="update" />
-            <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#delete" text="delete" />
+            <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#add" prefWidth="100.0" text="Add" />
+            <Button fx:id="btnUpdate" mnemonicParsing="false" onAction="#update" prefWidth="100.0" text="update" />
+            <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#delete" prefWidth="100.0" text="delete" />
          </children>
       </HBox>
 	</children>

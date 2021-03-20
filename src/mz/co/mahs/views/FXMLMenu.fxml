@@ -12,7 +12,7 @@
 	<children>
 		<BorderPane id="borderPane" fx:id="menuPane" layoutX="14.0" layoutY="14.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 			<left>
-				<VBox fx:id="vBoxMenuItems" prefHeight="335.0" prefWidth="198.0" spacing="1.0" style="-fx-background-color: #4682b4;" BorderPane.alignment="CENTER">
+				<VBox fx:id="vBoxMenuItems" prefHeight="943.0" prefWidth="200.0" spacing="1.0" style="-fx-background-color: #4682b4;" BorderPane.alignment="CENTER">
 					<children>
 						<Button fx:id="btnDashBord" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleDashBoard" prefHeight="25.0" prefWidth="200.0" text="Dashboard" />
 						<Button fx:id="btnProducto" layoutX="10.0" layoutY="120.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleProducto" prefHeight="25.0" prefWidth="200.0" text="Producto" />
@@ -35,6 +35,20 @@
 					</children>
 				</Pane>
 			</top>
+         <bottom>
+            <Pane fx:id="buttomMenuPane" prefHeight="56.0" prefWidth="750.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
+               <children>
+                  <Label fx:id="lblUserName" prefHeight="26.0" prefWidth="200.0" text="userName" textFill="WHITE">
+                     <font>
+                        <Font name="Garamond Bold" size="14.0" />
+                     </font></Label>
+                  <Label fx:id="lblType" layoutY="27.0" prefHeight="24.0" prefWidth="200.0" text="type" textFill="WHITE">
+                     <font>
+                        <Font name="Garamond Bold" size="14.0" />
+                     </font></Label>
+               </children>
+            </Pane>
+         </bottom>
 		</BorderPane>
 	</children>
 </AnchorPane>

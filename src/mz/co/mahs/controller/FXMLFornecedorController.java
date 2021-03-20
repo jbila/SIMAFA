@@ -20,7 +20,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import mz.co.mahs.dao.DaoFornecedor;
-import mz.co.mahs.models.Cliente;
 import mz.co.mahs.models.Fornecedor;
 import mz.co.mahs.models.Utilizador;
 
@@ -79,17 +78,27 @@ public class FXMLFornecedorController implements Initializable,Crud {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		showInfo();
+		btnUpdate.setVisible(false);
+		btnDelete.setVisible(false);
+		txtId.setVisible(false);
+
 	}
 	@FXML
 	private void add(ActionEvent event) {
 		acessoAdd();
 		showInfo();
+		btnAdd.setVisible(true);
+		btnUpdate.setVisible(false);
+		btnDelete.setVisible(false);
 	}
 
 	@FXML
 	private void delete(ActionEvent event) {
 		acessoDelete();
 		showInfo();
+		btnUpdate.setVisible(false);
+		btnDelete.setVisible(false);
+		btnAdd.setVisible(true);
 	}
 
 	@FXML
@@ -101,6 +110,9 @@ public class FXMLFornecedorController implements Initializable,Crud {
 		txtEmail.setText("" + fornecedor.getEmail());
 		txtTelefone.setText("" + fornecedor.getTelefone());
 		txtEndereco.setText("" + fornecedor.getEndereco());
+		btnAdd.setVisible(false);
+		btnUpdate.setVisible(true);
+		btnDelete.setVisible(true);
 
 	}
 
@@ -108,6 +120,9 @@ public class FXMLFornecedorController implements Initializable,Crud {
 	private void update(ActionEvent event) {
 		acessoUpdate();
 		showInfo();
+		btnAdd.setVisible(true);
+		btnUpdate.setVisible(false);
+		btnDelete.setVisible(false);
 	}
 
 	@FXML
@@ -139,7 +154,7 @@ public class FXMLFornecedorController implements Initializable,Crud {
 		Utilizador utilizador=new Utilizador();
 		utilizador.setIdUtilizador(ControllerLogin.idUsuario);
 		fornecedor.setNome(txtNome.getText().toUpperCase());
-		fornecedor.setEmail(txtEmail.getText().toUpperCase());
+		fornecedor.setEmail(txtEmail.getText().toLowerCase());
 		fornecedor.setTelefone(txtTelefone.getText().toUpperCase());
 		fornecedor.setEndereco(txtEndereco.getText().toUpperCase());
 		fornecedor.setUtilizador(utilizador);

@@ -4,7 +4,6 @@ package mz.co.mahs.controller;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,7 +21,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import mz.co.mahs.dao.DaoCliente;
-import mz.co.mahs.models.Categoria;
 import mz.co.mahs.models.Cliente;
 import mz.co.mahs.models.Utilizador;
 
@@ -52,6 +50,9 @@ public class FXMLClienteController implements Initializable, Crud {
 	private TableColumn<Cliente, String> colNome;
 
 	@FXML
+	private TableColumn<Cliente, String> colApelido;
+
+	@FXML
 	private TableColumn<Cliente, String> colEmail;
 
 	@FXML
@@ -65,6 +66,9 @@ public class FXMLClienteController implements Initializable, Crud {
 
 	@FXML
 	private TableColumn<Cliente, Utilizador> colUtilizador;
+
+	@FXML
+	private TableColumn<Cliente, String> colDataRegisto;
 
 	@FXML
 	private TextField txtEndereco;
@@ -101,10 +105,14 @@ public class FXMLClienteController implements Initializable, Crud {
 	private void delete(ActionEvent event) {
 		acessoDelete();
 		showInfo();
+		btnUpdate.setVisible(false);
+		btnDelete.setVisible(false);
+		btnAdd.setVisible(true);
 	}
 
 	@FXML
 	private void handleMouseClickAction(MouseEvent event) {
+		
 		Cliente cliente = tblCliente.getSelectionModel().getSelectedItem();
 		txtID.setText("" + cliente.getIdCliente());
 		txtNome.setText("" + cliente.getNome());
@@ -112,18 +120,27 @@ public class FXMLClienteController implements Initializable, Crud {
 		txtEmail.setText("" + cliente.getEmail());
 		txtTelefone.setText("" + cliente.getTelefone());
 		txtEndereco.setText("" + cliente.getEndereco());
+		btnAdd.setVisible(false);
+		btnUpdate.setVisible(true);
+		btnDelete.setVisible(true);
 	}
 
 	@FXML
 	private void update(ActionEvent event) {
 		acessoUpdate();
 		showInfo();
+		btnAdd.setVisible(true);
+		btnUpdate.setVisible(false);
+		btnDelete.setVisible(false);
 	}
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		cboSexo.setItems(sexo);
 		showInfo();
+		btnUpdate.setVisible(false);
+		btnDelete.setVisible(false);
+		txtID.setVisible(false);
 
 	}
 
@@ -142,6 +159,9 @@ public class FXMLClienteController implements Initializable, Crud {
 		cliente.setUtilizador(utilizador);
 		DaoCliente.addCliente(cliente);
 		limpar();
+		btnAdd.setVisible(true);
+		btnUpdate.setVisible(false);
+		btnDelete.setVisible(false);
 	}
 
 	@Override
@@ -194,11 +214,13 @@ public class FXMLClienteController implements Initializable, Crud {
 		final ObservableList<Cliente> obserList = FXCollections.observableArrayList(list);
 		colId.setCellValueFactory(new PropertyValueFactory<>("idCliente"));
 		colNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
+		colApelido.setCellValueFactory(new PropertyValueFactory<>("apelido"));
 		colSexo.setCellValueFactory(new PropertyValueFactory<>("genero"));
 		colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
 		colEndereco.setCellValueFactory(new PropertyValueFactory<>("endereco"));
 		colTelefone.setCellValueFactory(new PropertyValueFactory<>("telefone"));
 		colUtilizador.setCellValueFactory(new PropertyValueFactory<>("utilizador"));
+		colDataRegisto.setCellValueFactory(new PropertyValueFactory<>("dataRegisto"));
 		tblCliente.setItems(obserList);
 
 	}

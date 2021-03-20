@@ -28,7 +28,8 @@ import javafx.stage.StageStyle;
 import mz.co.mahs.conection.Conexao;
 
 public class ControllerLogin implements Initializable {
-	
+	static Alert alertInfo = new Alert(AlertType.INFORMATION);
+
 	public static int idUsuario =0;// it will be used in other class
 	public   String status="";
 	public static String perfil="";
@@ -67,7 +68,7 @@ public class ControllerLogin implements Initializable {
 
 	@FXML
     private void handleActionLogin(ActionEvent event) throws IOException {
-		//Stage stage = (Stage) this.txtUserName.getScene().getWindow();
+		Stage stage = (Stage) this.btnLogin.getScene().getWindow();
 		// start
 		username = txtUserName.getText();
 		password = txtPassword.getText();
@@ -92,13 +93,17 @@ public class ControllerLogin implements Initializable {
 				perfil=(rs.getString("perfil"));
 				
 				//when logged as Admin
-				if(perfil.equalsIgnoreCase("ADMINSTRADOR")&&(status.equalsIgnoreCase("Activo"))&&(txtUserName.getText().equalsIgnoreCase(username))&&(txtPassword.getText().equalsIgnoreCase(password)))
+				if(perfil.equalsIgnoreCase("ADMINISTRADOR")&&(status.equalsIgnoreCase("Activo"))&&(txtUserName.getText().equalsIgnoreCase(username))&&(txtPassword.getText().equalsIgnoreCase(password)))
 				{
 					txtUserName.setText("Succesfully Logged");
 					txtUserName.setText(null);
 					txtPassword.setText(null);	
-					JOptionPane.showMessageDialog(null, perfil+"<>"+username+"<>"+idUsuario);
+					alertInfo.setHeaderText("Utilizador Info");
+					alertInfo.setContentText(perfil+"<>"+username+"<>"+idUsuario);
+					alertInfo.showAndWait();
+					//JOptionPane.showMessageDialog(null, perfil+"<>"+username+"<>"+idUsuario);
 					login(); // CHAMA O FORMULARIO DE MENU
+				stage.close();
 				
 	
 				}
@@ -109,8 +114,11 @@ public class ControllerLogin implements Initializable {
 					txtUserName.setText("Succesfully Logged");
 					txtUserName.setText(null);
 					txtPassword.setText(null);
-					JOptionPane.showMessageDialog(null, perfil+"<>"+username+"<>"+idUsuario);
+					alertInfo.setHeaderText("Utilizador Info");
+					alertInfo.setContentText(perfil+"<>"+username+"<>"+idUsuario);
+					alertInfo.showAndWait();
 					login(); // CHAMA O FORMULARIO DE MENU
+					stage.close();// fecha a stage
 					
 				}
 				else
@@ -147,13 +155,17 @@ public class ControllerLogin implements Initializable {
 		Parent root = FXMLLoader.load(getClass().getResource("/mz/co/mahs/views/FXMLMenu.fxml"));//
 		Scene scene = new Scene(root);
 		stage.initStyle(StageStyle.DECORATED);
-		stage.setFullScreen(true); //when i enable this the forms slow alot to save
+		//stage.setFullScreen(true); //when i enable this the forms slow alot to save
 		// data and stop the app, to solve it
 		// wheen it opens forms in maximazed you have to resize after that you can do
 		// all operations with no problem
 		scene.getStylesheets().add(getClass().getResource("/mz/co/mahs/views/estilo.css").toExternalForm());
 		stage.setTitle("Menu");
-		// stage.initStyle(StageStyle.UNDECORATED);
+		stage.initStyle(StageStyle.DECORATED);
+		//stage.getMaxHeight();
+		stage.getMaxWidth();
+		stage.getMaxWidth();
+		
 		stage.setScene(scene);
 		stage.show();
 	}
@@ -161,7 +173,8 @@ public class ControllerLogin implements Initializable {
 	// -----------------------------------------------------------------------------
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
+		txtPassword.setText("admin");
+		txtUserName.setText("admin");
 	}
 
 }

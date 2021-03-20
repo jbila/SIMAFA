@@ -6,6 +6,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.util.Optional;
 import java.util.ResourceBundle;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -35,7 +37,7 @@ public class FXMLMenuController implements Initializable {
 	    private AnchorPane rootMenu;
 
 	    @FXML
-	    private BorderPane menuPane;
+	    private   BorderPane menuPane;
 
 	    @FXML
 	    private VBox vBoxMenuItems;
@@ -62,10 +64,14 @@ public class FXMLMenuController implements Initializable {
 	    private Button btnVendas;
 
 	    @FXML
-	    private Pane topMenuPane;
+	    private Pane topMenuPane,buttomMenuPane;
+	    @FXML
+	    private  Label lblUserName,lblType;
 
 	    //-------------the load method-----------------------------------------------
 	    public void initialize(URL url, ResourceBundle rb) {
+	    	lblType.setText("Profile: "+ControllerLogin.perfil.toUpperCase());
+	    	lblUserName.setText("User: "+ControllerLogin.username.toUpperCase());
 	        
 	    }    
 	   //----------------------------------------------------------------------------
@@ -302,7 +308,7 @@ public class FXMLMenuController implements Initializable {
         	  Stage stage=new Stage();
            try {
                
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mz/co/mahs/views/FXMLVendas.fxml"));//FXMLSituacao_
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mz/co/mahs/views/FXMLPedido.fxml"));//FXMLSituacao_
             Parent rootFormador = (Parent) fxmlLoader.load();
            
     		Scene scene = new Scene(rootFormador);
@@ -312,7 +318,7 @@ public class FXMLMenuController implements Initializable {
     		stage.initModality(Modality.APPLICATION_MODAL);
     		menuPane.setCenter(rootFormador);
     		menuPane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-    		// stage.show();
+    		//stage.show();
         } catch(Exception e) {
         	alertErro.setHeaderText("Erro");
         	alertErro.setContentText("Erro ao Carregar o Ficheiro "+e);

@@ -20,7 +20,7 @@ public class DaoCliente {
 	static Alert alertInfo = new Alert(AlertType.INFORMATION);
 
 	private static final String INSERT = "INSERT INTO tbl_cliente(nome,apelido,genero,email,telefone,endereco,idUtilizador,dataRegisto) VALUES(?,?,?,?,?,?,?,?)";
-	private static final String LIST = "select c.idCliente,c.nome,c.apelido,c.genero,c.email,c.telefone,c.endereco,c.idUtilizador from  tbl_cliente as C";
+	private static final String LIST = "SELECT * FROM vw_listAllCliente";
 	private static final String DELETE = "DELETE FROM tbl_cliente WHERE idCliente=?";
 	private static final String UPDATE = "UPDATE tbl_cliente SET nome=?,apelido=?,genero=?,email=?,telefone=?,endereco=?,idUtilizador=? WHERE idCliente=? ";
 
@@ -136,6 +136,7 @@ public class DaoCliente {
 			stmt.setInt(7, cliente.getUtilizador().getIdUtilizador());
 			stmt.setInt(8, cliente.getIdCliente());
 			stmt.executeUpdate();
+			
 			/*
 			alertInfo.setHeaderText("Informa��o");
 			alertInfo.setContentText("Formando Actualizado com �xito ");
@@ -170,8 +171,7 @@ public class DaoCliente {
 				Cliente cliente = new Cliente();
 				
 				Utilizador utilizador = new Utilizador();
-				utilizador.setNome(rs.getString(8));
-				
+				utilizador.setUsername(rs.getString("utilizador"));
 				cliente.setIdCliente(rs.getInt("idCliente"));
 				cliente.setNome(rs.getString("nome"));
 				cliente.setApelido(rs.getString("apelido"));
@@ -179,6 +179,7 @@ public class DaoCliente {
 				cliente.setEmail(rs.getString("email"));
 				cliente.setTelefone(rs.getString("telefone"));
 				cliente.setEndereco(rs.getString("endereco"));
+				cliente.setDataRegisto(rs.getString("dataRegisto"));
 				cliente.setUtilizador(utilizador);
 				clientes.add(cliente);
 			}
@@ -214,24 +215,26 @@ public class DaoCliente {
 			rs = stmt.executeQuery();
 
 			while (rs.next()) {
+				
 				// nome,apelido,genero,email,telefone,endereco,idUtilizador
 				Cliente cliente = new Cliente();
 				Utilizador utilizador = new Utilizador();
-				utilizador.setNome(rs.getString(8));
-				cliente.setIdCliente(rs.getInt(1));
-				cliente.setNome(rs.getString(rs.getString(2)));
-				cliente.setApelido(rs.getString(3));
-				cliente.setGenero(rs.getString(4));
-				cliente.setEmail(rs.getString(5));
-				cliente.setTelefone(rs.getString(6));
-				cliente.setEndereco(rs.getString(7));
+				utilizador.setNome(rs.getString("utilizador"));
+				cliente.setIdCliente(rs.getInt("idCliente"));
+				cliente.setNome(rs.getString("nome"));
+				cliente.setApelido(rs.getString("apelido"));
+				cliente.setGenero(rs.getString("genero"));
+				cliente.setEmail(rs.getString("email"));
+				cliente.setTelefone(rs.getString("telefone"));
+				cliente.setEndereco(rs.getString("endereco"));
+				cliente.setDataRegisto(rs.getString("dataRegisto"));
 				cliente.setUtilizador(utilizador);
 				clientes.add(cliente);
 			}
 
 		} catch (SQLException ex) {
 			alertErro.setHeaderText("Erro");
-			alertErro.setContentText("Erro ao Listar Formando  " + ex.getMessage());
+			alertErro.setContentText("Erro ao Listar Cliente  " + ex.getMessage());
 			alertErro.showAndWait();
 		} finally {
 			try {
